@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>مقترح إقامة الزواج الجماعي لشباب العتيكات</title>
+<meta property="og:title" content="مقترح إقامة الزواج الجماعي لشباب العتيكات">
+<meta property="og:description" content="اقرأ المقترح كاملاً بجميع بنوده ثم شارك رأيك وتصويتك في الأسفل">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+<!-- مكتبة Chart.js للرسم البياني -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- مكتبات Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<style>
+:root {
+  --brown: #4A2B16;
+  --brown2: #6A4326;
+  --gold: #CE9E4C;
+  --gold2: #E7C47B;
+  --cream: #FDFAF6;
+  --paper: #FFFDF9;
+  --ink: #302116;
+  --muted: #5C5046;
+  --line: #E9DED0;
+  --red-main: #8B1E1E;
+  --red-gradient: linear-gradient(135deg, #A82424, #721616);
+  --font-main: "Tajawal", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-main);
+  line-height: 1.85;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+button, input, textarea { font-family: var(--font-main); }
+a { text-decoration: none; color: inherit; }
+
+.container {
+  width: 100%;
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* الشريط العلوي */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253, 250, 246, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--line);
+}
+.nav {
+  min-height: 85px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 10px 0;
+  text-align: center;
+}
+.brand { display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 800; color: var(--brown); font-size: 20px; }
+.brand img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
+.developer-tag { font-size: 13px; font-weight: 700; color: var(--gold); margin-top: 2px; }
+
+/* فواصل الكتل المزخرفة */
+.block-divider {
+  display: flex; align-items: center; justify-content: center;
+  margin: 35px auto; width: 100%; max-width: 600px;
+}
+.block-divider::before, .block-divider::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.block-divider-diamond {
+  width: 10px; height: 10px; background-color: var(--gold);
+  transform: rotate(45deg); margin: 0 15px; box-shadow: 0 0 6px rgba(206, 158, 76, 0.5);
+}
+
+.share-callout-wrap { text-align: center; margin: 24px auto 12px; display: flex; justify-content: center; width: 100%; }
+.share-callout {
+  background: var(--red-gradient); color: #FFF; text-align: center;
+  padding: 10px 24px; font-size: 17px; font-weight: 800; border-radius: 50px;
+  border: 2px solid var(--gold2); box-shadow: 0 6px 20px rgba(139, 30, 30, 0.25);
+}
+
+/* قسم الهيرو */
+.hero { padding: 10px 0 10px; text-align: center; }
+h1 { font-size: clamp(24px, 4vw, 36px); color: var(--brown); margin: 10px 0; font-weight: 900; }
+.greeting { font-size: 18px; font-weight: 800; color: var(--brown2); margin-bottom: 12px; }
+.lead { font-size: 16.5px; color: var(--muted); font-weight: 500; text-align: justify; text-justify: inter-word; margin-bottom: 20px; }
+
+.actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.btn {
+  border: 0; border-radius: 12px; padding: 12px 28px; cursor: pointer;
+  font-weight: 700; font-size: 15px; transition: 0.25s;
+  display: inline-flex; align-items: center; justify-content: center; text-align: center;
+}
+.btn-primary { background: var(--brown); color: #fff; }
+.btn-primary:hover { background: var(--brown2); }
+.btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--brown); }
+
+/* بطاقات بنود المقترح */
+.proposal-section { padding: 10px 0 20px; }
+.proposal-card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 20px; padding: 28px; margin-bottom: 22px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: right;
+  transition: transform 0.2s ease;
+}
+.proposal-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 43, 22, 0.05); }
+.proposal-card h2 {
+  color: var(--brown); font-size: 21px; font-weight: 800; margin-top: 0;
+  border-bottom: 2px solid var(--gold); padding-bottom: 8px; display: inline-block;
+}
+.proposal-card p { color: var(--muted); margin: 10px 0; font-size: 15.5px; }
+.proposal-list { padding-right: 20px; margin: 10px 0; color: var(--muted); font-size: 15.5px; }
+.proposal-list li { margin-bottom: 8px; }
+.sub-header { font-weight: 800; color: var(--brown2); margin-top: 14px; margin-bottom: 4px; font-size: 16px; }
+
+/* قسم التصويت والنموذج */
+.vote-section { padding: 10px 0 30px; }
+.vote-wrap {
+  background: linear-gradient(135deg, #4A2B16, #6A4326);
+  color: #fff; border-radius: 24px; padding: 30px 20px; text-align: center;
+  border: 2px solid var(--gold2);
+}
+.vote-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.vote-option {
+  flex: 1 1 200px; max-width: 260px;
+  background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff; border-radius: 14px; padding: 16px; cursor: pointer; font-weight: 700; transition: 0.2s; text-align: center;
+}
+.vote-option.selected { background: var(--gold); color: var(--brown); border-color: var(--gold); transform: scale(1.02); }
+
+.card {
+  background: var(--paper); border: 2px solid var(--brown);
+  border-radius: 24px; padding: 30px 24px; box-shadow: 0 10px 30px rgba(74, 43, 22, 0.08);
+  position: relative; margin-top: 25px; text-align: right;
+  display: none;
+}
+.form-notice {
+  background: rgba(206, 158, 76, 0.15); border: 1px dashed var(--gold);
+  border-radius: 12px; padding: 14px; margin-bottom: 22px;
+  color: var(--brown); font-size: 14px; font-weight: 700; text-align: center; line-height: 1.6;
+}
+.form-grid { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.form-col { flex: 1 1 280px; }
+label { font-size: 14px; font-weight: 700; color: var(--brown); display: block; margin-bottom: 6px; }
+.required-star { color: var(--red-main); }
+input, textarea {
+  width: 100%; border: 1.5px solid var(--brown2); background: #fff;
+  border-radius: 12px; padding: 12px; outline: none; font-size: 15px;
+}
+textarea { min-height: 110px; resize: vertical; }
+
+/* نافذة رسالة الشكر المنبثقة */
+.thankyou-overlay {
+  display: none;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(6px);
+  z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+}
+.thankyou-modal {
+  background: var(--paper); border: 3px solid var(--gold);
+  border-radius: 24px; padding: 35px 25px; text-align: center;
+  max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: popIn 0.3s ease-out; margin: auto;
+}
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.thankyou-icon { font-size: 55px; margin-bottom: 10px; display: block; }
+.thankyou-modal h3 { color: var(--brown); font-size: 24px; font-weight: 900; margin: 10px 0; }
+.thankyou-modal p { color: var(--muted); font-size: 15px; margin-bottom: 25px; line-height: 1.6; }
+
+/* العداد والإحصائيات */
+.countdown-section {
+  background: var(--red-gradient); color: #fff; padding: 22px 15px;
+  border-radius: 20px; text-align: center; margin: 10px auto 25px; border: 2px solid var(--gold2);
+}
+.timer-grid { display: flex; justify-content: center; gap: 8px; flex-direction: row-reverse; flex-wrap: wrap; }
+.timer-box { background: rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 8px 12px; min-width: 60px; text-align: center; }
+.timer-num { font-size: 22px; font-weight: 900; color: var(--gold2); display: block; }
+
+.stats-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 25px 0; }
+.stat-card {
+  flex: 1 1 200px; background: var(--paper); border: 1px solid var(--line);
+  border-radius: 16px; padding: 18px; text-align: center;
+}
+.stat-card h3 { font-size: 30px; font-weight: 900; color: var(--brown); margin: 0; }
+
+.chart-section {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 25px 15px; margin-bottom: 30px; text-align: center;
+}
+.chart-container { max-width: 340px; margin: 15px auto 0; }
+
+.ideas-grid { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+.idea-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: right; }
+.idea-author { font-weight: 800; color: var(--brown); margin-bottom: 4px; }
+.idea-text { font-size: 14px; color: var(--muted); }
+
+footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: center; margin-top: auto; }
+
+@media (max-width: 600px) {
+  .actions { flex-direction: column; width: 100%; }
+  .btn { width: 100%; }
+  .vote-option { max-width: 100%; width: 100%; }
+  .form-col { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="#top">
+      <img src="logo.png" alt="شعار المبادرة" onerror="this.style.display='none'">
+      <span>مبادرة مقترح للزواج الجماعي لشباب العتيكات</span>
+    </a>
+    <div class="developer-tag">تصميم وبرمجة: أبو فيصل حفظه الله</div>
+  </div>
+</header>
+
+<div class="container share-callout-wrap">
+  <div class="share-callout">اقرأ المقترح كاملاً بجميع بنوده، ثم شارك برأيك وتصويتك في الأسفل</div>
+</div>
+
+<main class="hero" id="top">
+  <div class="container">
+    <h1>مقترح إقامة الزواج الجماعي لشباب العتيكات</h1>
+    <div class="greeting">إخواني وأبناء جماعة العتيكات الكرام،<br>السلام عليكم ورحمة الله وبركاته،،</div>
+    <p class="lead">وصلني خلال الفترة الماضية اقتراح من عدد من أبناء العتيكات حول إمكانية إقامة زواج جماعي لشباب العتيكات، ونظرًا لأهمية الفكرة وما يمكن أن تحققه من تعاون وتكاتف بين أبناء الجماعة، فقد رأيت طرحها للنقاش بعد دراسة مبدئية لآلية تنفيذها، والوصول إلى تصور قابل للتعديل والتطوير بما يتوافق مع رأي الجماعة.<br>والفكرة في أساسها تقوم على التعاون والتيسير ومساعدة الشباب، مع المحافظة على خصوصية كل عريس ورغبته في إقامة عرسه الخاص.</p>
+    <div class="actions">
+      <a href="#proposal-body" class="btn btn-outline">قراءة بنود المقترح الكاملة</a>
+      <a href="#vote-section" class="btn btn-primary">الانتقال للتصويت في الأسفل</a>
+    </div>
+  </div>
+</main>
+
+<div class="block-divider"><div class="block-divider-diamond"></div></div>
+
+<!-- قسم القراءة الكاملة لكافة بنود المقترح -->
+<section id="proposal-body" class="proposal-section">
+  <div class="container">
+
+    <div class="proposal-card">
+      <h2>أولًا: فكرة الزواج الجماعي</h2>
+      <p>الزواج الجماعي لا يلغي العرس الخاص بالعريس ولا يمنعه من إقامة مناسبته الخاصة.</p>
+      <p>فلكل عريس أن يحدد الموعد الذي يناسبه لإقامة عرس النساء والوليمة الخاصة به، بينما يكون الزواج الجماعي مناسبة مشتركة لشباب العتيكات، تقام في موعد محدد ومتفق عليه من الجماعة.</p>
+      <p>وبذلك يجمع العريس بين المشاركة في الزواج الجماعي، وبين إقامة مناسبته الخاصة بالطريقة التي يرغب بها.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>ثانيًا: موعد الزواج الجماعي</h2>
+      <p>يتم تحديد يوم واحد من كل عام لإقامة الزواج الجماعي، ويفضل أن يكون في أيام الربيع؛ لما تتميز به من اعتدال الأجواء، وإمكانية إقامة جزء كبير من المناسبة في الخارج والاستفادة من الأجواء الجميلة.</p>
+      <p>ويتم تحديد الموعد مبكرًا حتى يتمكن الجميع من الاستعداد للمناسبة.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>ثالثًا: موقع وتجهيزات المناسبة</h2>
+      <p>يتم اختيار موقع مناسب للمناسبة، على أن يتضمن:</p>
+      <ul class="proposal-list">
+        <li>مفرشًا خارجيًا مجهزًا بشكل راقٍ لاستقبال الضيوف وإقامة الفعاليات.</li>
+        <li>قاعة داخلية مخصصة للضيوف عند الحاجة.</li>
+        <li>تجهيز جلسات ومقاعد فاخرة ومنظمة، ويخصص لكل عريس مقعد في مكان الاستقبال.</li>
+        <li>توفير جميع احتياجات الضيافة من قهوة وشاي ومياه وطعام وغيرها.</li>
+        <li>تجهيز الصوتيات والإضاءة والمنصة وكل ما تحتاجه فقرات الحفل.</li>
+      </ul>
+    </div>
+
+    <div class="proposal-card">
+      <h2>رابعًا: الاستقبال</h2>
+      <p>يكون استقبال الضيوف في المفرش الخارجي، ويكون الاستقبال بصورة تليق باسم العتيكات.</p>
+      <p>ويقتصر الاستقبال الرسمي على:</p>
+      <ul class="proposal-list">
+        <li>كبار السن من أبناء العتيكات.</li>
+        <li>آباء العرسان.</li>
+        <li>العرسان.</li>
+        <li>الداعمين للصندوق، وفق ما تراه لجنة التنظيم مناسبًا.</li>
+      </ul>
+      <p>والهدف أن يكون الاستقبال منظمًا ومختصرًا، بعيدًا عن المبالغة في التكاليف والمظاهر.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>خامسًا: برنامج الحفل</h2>
+      <p>يبدأ برنامج المناسبة من بعد صلاة العصر، ويكون على شكل احتفال وكرنفال اجتماعي لأبناء العتيكات، ويتضمن عددًا من الفقرات، مثل:</p>
+      <ul class="proposal-list">
+        <li>استقبال الحضور.</li>
+        <li>الفقرات الخطابية.</li>
+        <li>الفقرات الشعرية والمنبرية.</li>
+        <li>دعوة عدد من الشعراء.</li>
+        <li>دعوة الأعيان والوجهاء من أبناء العتيكات ومن القبائل الأخرى.</li>
+        <li>أي فقرات أو فعاليات تراها لجنة التنظيم مناسبة.</li>
+      </ul>
+      <p>ويتم إعداد برنامج الحفل مسبقًا بصورة منظمة تليق بالمناسبة.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>سادسًا: تشكيل اللجان وتمثيل أخماس العتيكات</h2>
+      <p>حرصًا على أن تكون المسؤولية مشتركة بين جميع أبناء العتيكات، وألا تقع مسؤولية التنظيم على مجموعة محددة، يتم تشكيل لجان متخصصة للمناسبة.</p>
+      <p>ويلتزم كل خامس من أخماس العتيكات بترشيح شخص واحد على الأقل لعضوية اللجان المنظمة.</p>
+      <p>ويشترط في المرشح أن يكون من الأشخاص القادرين على تحمل المسؤولية، والتعاون، وحسن التنظيم، والالتزام بما يوكل إليه من مهام. ويتم توزيع المرشحين على اللجان بحسب خبراتهم وقدراتهم:</p>
+
+      <div class="sub-header">1. اللجنة التنظيمية:</div>
+      <p>تكون مسؤولة عن إعداد وتنظيم المناسبة، اختيار الموقع، الإشراف على التجهيزات، إعداد برنامج الحفل، التنسيق مع الشعراء والأعيان والضيوف، تنظيم الاستقبال، والإشراف على جميع تفاصيل المناسبة يوم الحفل.</p>
+
+      <div class="sub-header">2. اللجنة المالية:</div>
+      <p>تكون مسؤولة عن جمع مساهمات أبناء العتيكات، إعداد الميزانية، طلب عروض الأسعار، التفاوض مع القصور والمفارش وشركات التجهيز، التفاوض على أسعار الذبائح والضيافة والنقل وغيرها، تسجيل جميع الإيرادات والمصروفات، وإعداد كشف مالي واضح وشفاف. ويُفضل أن تضم اللجنة أشخاصًا من ذوي الخبرة في الأسعار والمفاوضات وإدارة الميزانيات للوصول إلى أفضل الأسعار وتجنب المصروفات غير الضرورية.</p>
+
+      <div class="sub-header">3. لجنة الإعداد والتنسيق:</div>
+      <p>تتولى التنسيق مع مقدمي الخدمات مثل: القصر أو موقع الحفل، تجهيز المفرش، الضيافة، الذبائح والولائم، شركات النقل، الصوتيات والإضاءة، وأي خدمات أخرى تحتاجها المناسبة.</p>
+
+      <div class="sub-header">4. لجنة الاستقبال:</div>
+      <p>تتولى تنظيم استقبال كبار السن، آباء العرسان، العرسان، الداعمين للصندوق، والأعيان والوجهاء والضيوف. وتوزع مهام الاستقبال بين أبناء العتيكات لضمان حسن التنظيم.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>سابعًا: صندوق الزواج الجماعي</h2>
+      <p>يقترح أن تكون هناك مساهمة سنوية بمبلغ 100 ريال لكل رجل عاقل بالغ من أبناء العتيكات، أو المبلغ الذي تراه الجماعة مناسبًا، مع مراعاة ظروف الجميع وعدم جعل المساهمة عبئًا على أحد.</p>
+      <p>وتكون أموال الصندوق أمانة، ويتم التعامل معها بشفافية كاملة. كما يفتح باب الدعم والتبرع من أهل الخير من أبناء العتيكات، خصوصًا في بداية المشروع، حتى يتم تأسيس الصندوق بصورة جيدة.</p>
+      <p>ويشترط أن تكون أموال الصندوق مخصصة لغرضها، ولا يجوز تشغيلها أو المتاجرة بها أو استخدامها في أي نشاط آخر. ويتم تسليم المساهمات للصندوق قبل موعد إقامة الحفل بوقت كافٍ، حتى تتمكن اللجان من إعداد الميزانية والتعاقد مع مقدمي الخدمات.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>ثامنًا: دعم العرسان</h2>
+      <p>بعد تغطية تكاليف المناسبة والالتزامات الأساسية، يتم تخصيص جزء من المبالغ المتوفرة في الصندوق لدعم العرسان المشاركين.</p>
+      <p>ويقترح مبدئيًا أن يحصل كل عريس على مبلغ 10,000 ريال كدعم للزواج، أو بحسب ما تسمح به موارد الصندوق وقرار الجماعة.</p>
+      <p>وما يتبقى من أموال الصندوق بعد تنفيذ المناسبة والدعم المقرر يبقى في الصندوق للعام القادم، ولا يتم توزيعه أو التصرف فيه إلا وفق الآلية التي تعتمدها الجماعة.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>تاسعًا: الشفافية والمسؤولية المالية</h2>
+      <p>نظرًا لأن أموال الصندوق مساهمات من أبناء العتيكات، فإنها تعتبر أمانة في ذمة اللجنة المالية. وعليه:</p>
+      <ul class="proposal-list">
+        <li>توثق جميع المبالغ المستلمة والمصروفات.</li>
+        <li>تحفظ الفواتير والعقود.</li>
+        <li>يتم الإعلان عن إجمالي الإيرادات والمصروفات وتقديم كشف مالي واضح للجماعة بعد انتهاء المناسبة.</li>
+        <li>لا يجوز استخدام أموال الصندوق في غير الغرض المخصص لها، ولا يجوز تشغيلها أو المتاجرة بها.</li>
+      </ul>
+    </div>
+
+    <div class="proposal-card">
+      <h2>عاشرًا: مشاركة أهل الخير</h2>
+      <p>يفتح باب الدعم لأهل الخير من أبناء العتيكات الراغبين في دعم المشروع، سواء بالمساهمة المالية أو بتقديم خدمة أو الحصول على سعر خاص من خلال علاقاتهم وخبراتهم.</p>
+      <p>ويكون هذا الدعم اختياريًا، ويصب بالكامل في مصلحة المشروع وصندوق الزواج الجماعي.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>الحادي عشر: مبدأ المشاركة والاختيار</h2>
+      <p>هذه الفكرة مقترح جماعي، والقرار فيها للجماعة بعد طرحها ومناقشتها والتصويت عليها.</p>
+      <p>وفي حال حصلت الفكرة على الأغلبية بالموافقة، يتم اعتماد الزواج الجماعي والبدء في تشكيل اللجان والاستعداد للمناسبة.</p>
+      <p>أما من يرى عدم مناسبة الزواج الجماعي له، ويرغب في إقامة زواجه بشكل مستقل، فهذا حقه، ولا يلزم بإقامة زواجه ضمن المناسبة الجماعية. ومن كانت له مناسبة خاصة في وقت آخر، فله أن يقيمها بالطريقة التي تناسبه، مع بقاء باب المشاركة والتعاون مفتوحًا للجميع.</p>
+      <p>أما الحضور والمشاركة في المناسبة الجماعية، فكل من استطاع فله الشرف، ومن تعذر عليه الحضور فله عذره.</p>
+    </div>
+
+    <div class="proposal-card">
+      <h2>الهدف من المبادرة</h2>
+      <p>الهدف من هذه المبادرة ليس إقامة حفل كبير أو زيادة المظاهر، وإنما: التيسير على الشباب، وتقليل تكاليف الزواج، ومساعدة المقبلين على الزواج، وتقوية الترابط بين أبناء العتيكات، وإيجاد عمل جماعي يستفيد منه الجميع.</p>
+      <p>كما أن إقامة الزواج الجماعي بشكل سنوي يمكن أن تتحول مع الوقت إلى مناسبة اجتماعية تجمع أبناء العتيكات وأهلهم وضيوفهم، وتكون عنوانًا للتكاتف والتعاون بينهم.</p>
+    </div>
+
+    <div class="proposal-card" style="background: rgba(206, 158, 76, 0.08); border: 2px solid var(--gold);">
+      <h2>كلمة أخيرة</h2>
+      <p>قد تبدو فكرة الزواج الجماعي في بدايتها كبيرة وصعبة التنفيذ، ولكنها مع تعاون أبناء العتيكات وتوزيع المسؤوليات بين الجميع ستكون أسهل بكثير، ولن تكون تكلفتها عبئًا على الجماعة إذا أحسنّا التخطيط والتفاوض واختيار الأسعار المناسبة.</p>
+      <p>والنجاح الحقيقي للمشروع يعتمد بعد توفيق الله على: التعاون، والشفافية، وحسن التنظيم، ومراعاة ظروف الجميع، وتوزيع المسؤولية بين جميع أخماس العتيكات.</p>
+      <p>وعليه، نطرح هذا المقترح أمام أبناء العتيكات للنقاش وإبداء الرأي والتعديل والإضافة، ثم التصويت عليه.</p>
+      <p>فإن وجد القبول والتأييد، بدأنا العمل عليه بشكل رسمي، وإن رأى الإخوان ما هو أفضل منه فنحن جميعًا مع ما يخدم شباب العتيكات ويحقق المصلحة للجميع.</p>
+      <p style="text-align: center; font-weight: 800; color: var(--brown); font-size: 17px; margin-top: 15px;">والله ولي التوفيق.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="block-divider"><div class="block-divider-diamond"></div></div>
+
+<!-- قسم التصويت ونموذج الإدخال -->
+<section id="vote-section" class="vote-section">
+  <div class="container">
+    <div class="vote-wrap">
+      <h2 style="margin-top:0;">التصويت على المبادرة</h2>
+      <p style="margin-bottom:10px;">اختر موقفك أولاً لتأكيد وتوثيق صوتك ثم اضغط إرسال:</p>
+      <div class="vote-options">
+        <div class="vote-option" onclick="selectVote(this, 'موافق')">موافق على المقترح</div>
+        <div class="vote-option" onclick="selectVote(this, 'موافق مع تعديلات')">موافق مع تعديلات</div>
+        <div class="vote-option" onclick="selectVote(this, 'غير موافق')">غير موافق</div>
+      </div>
+    </div>
+
+    <div class="card" id="formCard">
+      <h2 style="color:var(--brown); font-size:22px; font-weight:800; margin-top:0; text-align:center;" id="formTitle">توثيق وتأكيد التصويت</h2>
+      
+      <div class="form-notice">
+        ℹ️ <strong>ملاحظة هامة للمشاركين:</strong> لضمان مصداقية التصويت وتوثيق الآراء الرسمية ومنع التكرار، يتطلب النظام إدخال <strong>الاسم الكامل ورقم الجوال الصحيح</strong> لاحتساب صوتك في النتائج النهائية.
+      </div>
+
+      <form class="form-grid" id="feedbackForm">
+        <input type="hidden" id="selectedVoteInput" required>
+        
+        <div class="form-row">
+          <div class="form-col">
+            <label>الاسم الكامل <span class="required-star">*</span></label>
+            <input type="text" id="userName" placeholder="أدخل اسمك الكريم الثلاثي أو الرباعي" required>
+          </div>
+          <div class="form-col">
+            <label>رقم الجوال <span class="required-star">*</span></label>
+            <input type="tel" id="userPhone" placeholder="05xxxxxxxx" pattern="^05[0-9]{8}$" title="يرجى إدخال رقم جوال سعودي صحيح يتكون من 10 أرقام" required oninput="convertArabicDigits(this)">
+          </div>
+        </div>
+
+        <!-- صندوق النص يظهر فقط عند اختيار موافق مع تعديلات -->
+        <div id="notesContainer" style="display: none;">
+          <label>المرئيات أو التعديلات المقترحة <span class="required-star">*</span></label>
+          <textarea id="userNotes" placeholder="اكتب مقترحك أو التعديلات المرغوبة هنا..."></textarea>
+        </div>
+
+        <div>
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%;">إرسال وتوثيق التصويت الحقيقي</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="block-divider"><div class="block-divider-diamond"></div></div>
+
+<!-- نافذة رسالة الشكر المنبثقة -->
+<div class="thankyou-overlay" id="thankyouOverlay">
+  <div class="thankyou-modal">
+    <span class="thankyou-icon">🎉</span>
+    <h3>شكراً لتصويتك ومشاركتك!</h3>
+    <p>تم تسجيل وتوثيق مشاركتك بنجاح وبمصداقية تامّة في مبادرة الزواج الجماعي لشباب العتيكات.</p>
+    <button class="btn btn-primary" onclick="closeThankYouModal()">تم</button>
+  </div>
+</div>
+
+<!-- نتائج وتصويتات المبادرة -->
+<section id="results">
+  <div class="container">
+    <div class="countdown-section">
+      <div style="font-weight: 800; font-size: 17px; margin-bottom: 8px;">⏱️ المتبقي على إغلاق التصويت والاعتماد النهائي</div>
+      <div class="timer-grid">
+        <div class="timer-box"><span class="timer-num" id="days">00</span>يوم</div>
+        <div class="timer-box"><span class="timer-num" id="hours">00</span>ساعة</div>
+        <div class="timer-box"><span class="timer-num" id="minutes">00</span>دقيقة</div>
+        <div class="timer-box"><span class="timer-num" id="seconds">00</span>ثانية</div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3 id="statTotal">0</h3>
+        <p style="margin:0; font-size:14px; color:var(--muted);">إجمالي أصوات المشاركين</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statApproval">0%</h3>
+        <p style="margin:0; font-size:14px; color:var(--muted);">نسبة التأييد والموافقة</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statIdeas">0</h3>
+        <p style="margin:0; font-size:14px; color:var(--muted);">مقترح وملاحظة مقدمة</p>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3 style="text-align: center; color: var(--brown); margin: 0; font-size:20px;">نتائج التصويت المباشرة الحقيقية</h3>
+      <div class="chart-container">
+        <canvas id="voteChart"></canvas>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="color: var(--brown); text-align: center; font-size:20px;">مقترحات أبناء القبيلة المشاركة</h3>
+      <div class="ideas-grid" id="ideasContainer"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p style="margin:0 0 6px 0; font-size:15px; font-weight:700;">مبادرة مقترح للزواج الجماعي لشباب العتيكات © 2026</p>
+    <p style="margin:0; font-size:13px; color:var(--gold2);">تصميم وبرمجة: أبو فيصل حفظه الله</p>
+  </div>
+</footer>
+
+<script>
+// تحويل الأرقام الهندية/العربية تلقائياً إلى أرقام إنجليزية
+function convertArabicDigits(input) {
+  const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  let val = input.value;
+  for (let i = 0; i < 10; i++) {
+    val = val.replace(new RegExp(arabicDigits[i], 'g'), i);
+  }
+  input.value = val;
+}
+
+// مفاتيح Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDsR-JjJ6SZKlF8mzvBLuQCJInY-jS_l8c",
+  authDomain: "otikat-wedding.firebaseapp.com",
+  databaseURL: "https://otikat-wedding-default-rtdb.firebaseio.com",
+  projectId: "otikat-wedding",
+  storageBucket: "otikat-wedding.firebasestorage.app",
+  messagingSenderId: "453359508021",
+  appId: "1:453359508021:web:8e95b7b9bf03c2ebc1af7c",
+  measurementId: "G-2YJPF5ER48"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
+
+// Chart.js
+const ctx = document.getElementById('voteChart').getContext('2d');
+const voteChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['موافق', 'موافق مع تعديلات', 'غير موافق'],
+    datasets: [{
+      data: [0, 0, 0],
+      backgroundColor: ['#4A2B16', '#CE9E4C', '#8B1E1E'],
+      borderWidth: 2,
+      borderColor: '#FFFDF9'
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// إظهار النموذج والتكيّف مع الخيار المحدد
+function selectVote(el, val) {
+  document.querySelectorAll('.vote-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('selectedVoteInput').value = val;
+
+  const formCard = document.getElementById('formCard');
+  const notesContainer = document.getElementById('notesContainer');
+  const userNotes = document.getElementById('userNotes');
+  const formTitle = document.getElementById('formTitle');
+
+  formCard.style.display = 'block';
+
+  if (val === 'موافق مع تعديلات') {
+    notesContainer.style.display = 'block';
+    userNotes.required = true;
+    formTitle.innerText = "توثيق التصويت مع كتابة المقترح";
+  } else {
+    notesContainer.style.display = 'none';
+    userNotes.required = false;
+    userNotes.value = '';
+    formTitle.innerText = "توثيق وتأكيد التصويت (" + val + ")";
+  }
+
+  formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showThankYouModal() {
+  document.getElementById('thankyouOverlay').style.display = 'flex';
+}
+
+function closeThankYouModal() {
+  document.getElementById('thankyouOverlay').style.display = 'none';
+}
+
+// إرسال البيانات وحفظها في Firebase
+document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const voteVal = document.getElementById('selectedVoteInput').value;
+  
+  if (!voteVal) {
+    alert("يرجى تحديد موقفك من التصويت أولاً من الخيارات أعلاه.");
+    return;
+  }
+
+  const nameVal = document.getElementById('userName').value.trim();
+  const phoneInput = document.getElementById('userPhone');
+  convertArabicDigits(phoneInput);
+  const phoneVal = phoneInput.value.trim();
+  const notesVal = document.getElementById('userNotes').value.trim();
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (!nameVal || !phoneVal) {
+    alert("لضمان المصداقية، يلزم إدخال كلاً من الاسم الكامل ورقم الجوال لتأكيد التصويت.");
+    return;
+  }
+
+  if (voteVal === 'موافق مع تعديلات' && !notesVal) {
+    alert("لطفاً اكتب مقترحك أو الملاحظات المطلوبة في صندوق النص.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerText = "جاري توثيق وإرسال التصويت...";
+
+  db.ref('votes').push({
+    name: nameVal,
+    phone: phoneVal,
+    vote: voteVal,
+    notes: notesVal,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  }).then(() => {
+    showThankYouModal();
+    document.getElementById('feedbackForm').reset();
+    document.querySelectorAll('.vote-option').forEach(e => e.classList.remove('selected'));
+    document.getElementById('selectedVoteInput').value = '';
+    document.getElementById('formCard').style.display = 'none';
+    submitBtn.disabled = false;
+    submitBtn.innerText = "إرسال وتوثيق التصويت الحقيقي";
+  }).catch(err => {
+    alert("حدث خطأ أثناء الإرسال. يرجى التأكد من الاتصال بالإنترنت.");
+    console.error(err);
+    submitBtn.disabled = false;
+    submitBtn.innerText = "إرسال وتوثيق التصويت الحقيقي";
+  });
+});
+
+// تحديث النتائج والملاحظات حياً ومباشرة
+db.ref('votes').on('value', snapshot => {
+  const data = snapshot.val();
+  let countAgree = 0, countMod = 0, countDisagree = 0, total = 0, totalNotes = 0;
+  const ideasContainer = document.getElementById('ideasContainer');
+  ideasContainer.innerHTML = '';
+
+  if (data) {
+    Object.values(data).forEach(item => {
+      total++;
+      if (item.vote === 'موافق') countAgree++;
+      if (item.vote === 'موافق مع تعديلات') countMod++;
+      if (item.vote === 'غير موافق') countDisagree++;
+
+      if (item.notes && item.notes.trim() !== "") {
+        totalNotes++;
+        const card = document.createElement('div');
+        card.className = 'idea-card';
+        card.innerHTML = `
+          <div>
+            <div class="idea-author">${item.name} (${item.vote})</div>
+            <div class="idea-text">"${item.notes}"</div>
+          </div>
+        `;
+        ideasContainer.appendChild(card);
+      }
+    });
+  }
+
+  document.getElementById('statTotal').innerText = total;
+  document.getElementById('statIdeas').innerText = totalNotes;
+  const approvalPercent = total > 0 ? Math.round(((countAgree + countMod) / total) * 100) : 0;
+  document.getElementById('statApproval').innerText = approvalPercent + '%';
+
+  voteChart.data.datasets[0].data = [countAgree, countMod, countDisagree];
+  voteChart.update();
+});
+
+// العداد التنازلي
+const targetDate = new Date("2026-11-01T23:59:59").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+  if (distance > 0) {
+    document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+    document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+  }
+}, 1000);
+</script>
+
+</body>
+</html>

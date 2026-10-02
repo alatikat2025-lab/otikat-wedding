@@ -4,9 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>مقترح إقامة الزواج الجماعي لشباب العتيكات</title>
-<meta property="og:title" content="مقترح إقامة الزواج الجماعي لشباب العتيكات">
-<meta property="og:description" content="اقرأ المقترح كاملاً بجميع بنوده ثم شارك رأيك وتصويتك في الأسفل">
+<!-- العنوان والوصف الأساسي -->
+<title>مبادرة مقترح الزواج الجماعي لشباب العتيكات</title>
+<meta name="description" content="اقرأ المقترح كاملاً بجميع بنوده، وشارك برأيك وتصويتك المباشر لخدمة شباب العتيكات.">
+
+<!-- وسوم المعاينة المباشرة للواتساب ومواقع التواصل (Open Graph / WhatsApp Meta Tags) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="مبادرة الزواج الجماعي لشباب العتيكات">
+<meta property="og:title" content="مبادرة مقترح الزواج الجماعي لشباب العتيكات">
+<meta property="og:description" content="اقرأ المقترح كاملاً بجميع بنوده، وشارك برأيك وتصويتك المباشر لخدمة شباب العتيكات.">
+<meta property="og:image" content="https://otikat-wedding.vercel.app/logo.png">
+<meta property="og:image:secure_url" content="https://otikat-wedding.vercel.app/logo.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
+
+<!-- وسوم منصة X / تويتر -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="مبادرة مقترح الزواج الجماعي لشباب العتيكات">
+<meta name="twitter:description" content="اقرأ المقترح كاملاً بجميع بنوده، وشارك برأيك وتصويتك المباشر لخدمة شباب العتيكات.">
+<meta name="twitter:image" content="https://otikat-wedding.vercel.app/logo.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,32 +92,20 @@ a { text-decoration: none; color: inherit; }
 }
 .brand { display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 800; color: var(--brown); font-size: 20px; }
 .brand img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
-.developer-tag {
-  font-size: 13px; font-weight: 700; color: var(--gold); margin-top: 2px;
-}
+.developer-tag { font-size: 13px; font-weight: 700; color: var(--gold); margin-top: 2px; }
 
-/* فواصل الكتل المزخرفة والأنيقة المستوحاة من الشعار */
+/* فواصل الكتل المزخرفة */
 .block-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 35px auto;
-  width: 100%;
-  max-width: 600px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 35px auto; width: 100%; max-width: 600px;
 }
 .block-divider::before, .block-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
+  content: ""; flex: 1; height: 1px;
   background: linear-gradient(to right, transparent, var(--gold), transparent);
 }
 .block-divider-diamond {
-  width: 10px;
-  height: 10px;
-  background-color: var(--gold);
-  transform: rotate(45deg);
-  margin: 0 15px;
-  box-shadow: 0 0 6px rgba(206, 158, 76, 0.5);
+  width: 10px; height: 10px; background-color: var(--gold);
+  transform: rotate(45deg); margin: 0 15px; box-shadow: 0 0 6px rgba(206, 158, 76, 0.5);
 }
 
 .share-callout-wrap { text-align: center; margin: 24px auto 12px; display: flex; justify-content: center; width: 100%; }
@@ -110,7 +115,7 @@ a { text-decoration: none; color: inherit; }
   border: 2px solid var(--gold2); box-shadow: 0 6px 20px rgba(139, 30, 30, 0.25);
 }
 
-/* قسم الهيرو والرسالة الترحيبية */
+/* قسم الهيرو */
 .hero { padding: 10px 0 10px; text-align: center; }
 h1 { font-size: clamp(24px, 4vw, 36px); color: var(--brown); margin: 10px 0; font-weight: 900; }
 .greeting { font-size: 18px; font-weight: 800; color: var(--brown2); margin-bottom: 12px; }
@@ -134,10 +139,7 @@ h1 { font-size: clamp(24px, 4vw, 36px); color: var(--brown); margin: 10px 0; fon
   box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: right;
   transition: transform 0.2s ease;
 }
-.proposal-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74, 43, 22, 0.05);
-}
+.proposal-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 43, 22, 0.05); }
 .proposal-card h2 {
   color: var(--brown); font-size: 21px; font-weight: 800; margin-top: 0;
   border-bottom: 2px solid var(--gold); padding-bottom: 8px; display: inline-block;
@@ -145,10 +147,9 @@ h1 { font-size: clamp(24px, 4vw, 36px); color: var(--brown); margin: 10px 0; fon
 .proposal-card p { color: var(--muted); margin: 10px 0; font-size: 15.5px; }
 .proposal-list { padding-right: 20px; margin: 10px 0; color: var(--muted); font-size: 15.5px; }
 .proposal-list li { margin-bottom: 8px; }
-
 .sub-header { font-weight: 800; color: var(--brown2); margin-top: 14px; margin-bottom: 4px; font-size: 16px; }
 
-/* قسم التصويت والنموذج في آخر المقترح */
+/* قسم التصويت والنموذج */
 .vote-section { padding: 10px 0 30px; }
 .vote-wrap {
   background: linear-gradient(135deg, #4A2B16, #6A4326);
@@ -161,18 +162,18 @@ h1 { font-size: clamp(24px, 4vw, 36px); color: var(--brown); margin: 10px 0; fon
   background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff; border-radius: 14px; padding: 16px; cursor: pointer; font-weight: 700; transition: 0.2s; text-align: center;
 }
-.vote-option.selected { background: var(--gold); color: var(--brown); border-color: var(--gold); }
+.vote-option.selected { background: var(--gold); color: var(--brown); border-color: var(--gold); transform: scale(1.02); }
 
 .card {
   background: var(--paper); border: 2px solid var(--brown);
   border-radius: 24px; padding: 30px 24px; box-shadow: 0 10px 30px rgba(74, 43, 22, 0.08);
   position: relative; margin-top: 25px; text-align: right;
+  display: none;
 }
 .form-notice {
   background: rgba(206, 158, 76, 0.15); border: 1px dashed var(--gold);
   border-radius: 12px; padding: 14px; margin-bottom: 22px;
-  color: var(--brown); font-size: 14px; font-weight: 700; text-align: center;
-  line-height: 1.6;
+  color: var(--brown); font-size: 14px; font-weight: 700; text-align: center; line-height: 1.6;
 }
 .form-grid { display: flex; flex-direction: column; gap: 16px; }
 .form-row { display: flex; flex-wrap: wrap; gap: 16px; }
@@ -183,28 +184,28 @@ input, textarea {
   width: 100%; border: 1.5px solid var(--brown2); background: #fff;
   border-radius: 12px; padding: 12px; outline: none; font-size: 15px;
 }
-textarea { min-height: 100px; resize: vertical; }
+textarea { min-height: 110px; resize: vertical; }
 
-/* رسالة الشكر المنبثقة */
+/* نافذة رسالة الشكر المنبثقة */
 .thankyou-overlay {
   display: none;
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(6px);
   z-index: 1000; align-items: center; justify-content: center; padding: 20px;
 }
 .thankyou-modal {
   background: var(--paper); border: 3px solid var(--gold);
   border-radius: 24px; padding: 35px 25px; text-align: center;
-  max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   animation: popIn 0.3s ease-out; margin: auto;
 }
 @keyframes popIn {
   0% { transform: scale(0.8); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
-.thankyou-icon { font-size: 50px; margin-bottom: 10px; display: block; }
+.thankyou-icon { font-size: 55px; margin-bottom: 10px; display: block; }
 .thankyou-modal h3 { color: var(--brown); font-size: 24px; font-weight: 900; margin: 10px 0; }
-.thankyou-modal p { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+.thankyou-modal p { color: var(--muted); font-size: 15px; margin-bottom: 25px; line-height: 1.6; }
 
 /* العداد والإحصائيات */
 .countdown-section {
@@ -228,9 +229,7 @@ textarea { min-height: 100px; resize: vertical; }
 .chart-container { max-width: 340px; margin: 15px auto 0; }
 
 .ideas-grid { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
-.idea-card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: right;
-}
+.idea-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: right; }
 .idea-author { font-weight: 800; color: var(--brown); margin-bottom: 4px; }
 .idea-text { font-size: 14px; color: var(--muted); }
 
@@ -272,7 +271,6 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
   </div>
 </main>
 
-<!-- فاصل كتل مزخرف -->
 <div class="block-divider"><div class="block-divider-diamond"></div></div>
 
 <!-- قسم القراءة الكاملة لكافة بنود المقترح -->
@@ -407,15 +405,14 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
   </div>
 </section>
 
-<!-- فاصل كتل مزخرف -->
 <div class="block-divider"><div class="block-divider-diamond"></div></div>
 
-<!-- قسم التصويت ونموذج الإدخال في أواخر الموقع -->
+<!-- قسم التصويت ونموذج الإدخال -->
 <section id="vote-section" class="vote-section">
   <div class="container">
     <div class="vote-wrap">
       <h2 style="margin-top:0;">التصويت على المبادرة</h2>
-      <p style="margin-bottom:10px;">بعد الاطلاع على كافة بنود المقترح، يرجى تحديد موقفك واختيار أحد الخيارات التالية:</p>
+      <p style="margin-bottom:10px;">اختر موقفك أولاً لتأكيد وتوثيق صوتك ثم اضغط إرسال:</p>
       <div class="vote-options">
         <div class="vote-option" onclick="selectVote(this, 'موافق')">موافق على المقترح</div>
         <div class="vote-option" onclick="selectVote(this, 'موافق مع تعديلات')">موافق مع تعديلات</div>
@@ -423,8 +420,8 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
       </div>
     </div>
 
-    <div class="card">
-      <h2 style="color:var(--brown); font-size:22px; font-weight:800; margin-top:0; text-align:center;">شاركنا رأيك وتأكيد تصويتك</h2>
+    <div class="card" id="formCard">
+      <h2 style="color:var(--brown); font-size:22px; font-weight:800; margin-top:0; text-align:center;" id="formTitle">توثيق وتأكيد التصويت</h2>
       
       <div class="form-notice">
         ℹ️ <strong>ملاحظة هامة للمشاركين:</strong> لضمان مصداقية التصويت وتوثيق الآراء الرسمية ومنع التكرار، يتطلب النظام إدخال <strong>الاسم الكامل ورقم الجوال الصحيح</strong> لاحتساب صوتك في النتائج النهائية.
@@ -444,9 +441,10 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
           </div>
         </div>
 
-        <div>
-          <label>المرئيات أو التعديلات المقترحة (اختياري)</label>
-          <textarea id="userNotes" placeholder="اكتب رأيك أو اقتراحك هنا..."></textarea>
+        <!-- صندوق النص يظهر فقط عند اختيار موافق مع تعديلات -->
+        <div id="notesContainer" style="display: none;">
+          <label>المرئيات أو التعديلات المقترحة <span class="required-star">*</span></label>
+          <textarea id="userNotes" placeholder="اكتب مقترحك أو التعديلات المرغوبة هنا..."></textarea>
         </div>
 
         <div>
@@ -457,7 +455,6 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
   </div>
 </section>
 
-<!-- فاصل كتل مزخرف -->
 <div class="block-divider"><div class="block-divider-diamond"></div></div>
 
 <!-- نافذة رسالة الشكر المنبثقة -->
@@ -470,7 +467,7 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
   </div>
 </div>
 
-<!-- نتائج وتصويتات المبادرة التفاعلية -->
+<!-- نتائج وتصويتات المبادرة -->
 <section id="results">
   <div class="container">
     <div class="countdown-section">
@@ -507,9 +504,7 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
 
     <div>
       <h3 style="color: var(--brown); text-align: center; font-size:20px;">مقترحات أبناء القبيلة المشاركة</h3>
-      <div class="ideas-grid" id="ideasContainer">
-        <!-- تظهر الملاحظات هنا تلقائياً -->
-      </div>
+      <div class="ideas-grid" id="ideasContainer"></div>
     </div>
   </div>
 </section>
@@ -532,7 +527,7 @@ function convertArabicDigits(input) {
   input.value = val;
 }
 
-// مفاتيح Firebase الخاصة بالمشروع
+// مفاتيح Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDsR-JjJ6SZKlF8mzvBLuQCJInY-jS_l8c",
   authDomain: "otikat-wedding.firebaseapp.com",
@@ -565,10 +560,31 @@ const voteChart = new Chart(ctx, {
   options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
 });
 
+// إظهار النموذج والتكيّف مع الخيار المحدد
 function selectVote(el, val) {
   document.querySelectorAll('.vote-option').forEach(e => e.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById('selectedVoteInput').value = val;
+
+  const formCard = document.getElementById('formCard');
+  const notesContainer = document.getElementById('notesContainer');
+  const userNotes = document.getElementById('userNotes');
+  const formTitle = document.getElementById('formTitle');
+
+  formCard.style.display = 'block';
+
+  if (val === 'موافق مع تعديلات') {
+    notesContainer.style.display = 'block';
+    userNotes.required = true;
+    formTitle.innerText = "توثيق التصويت مع كتابة المقترح";
+  } else {
+    notesContainer.style.display = 'none';
+    userNotes.required = false;
+    userNotes.value = '';
+    formTitle.innerText = "توثيق وتأكيد التصويت (" + val + ")";
+  }
+
+  formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function showThankYouModal() {
@@ -579,13 +595,13 @@ function closeThankYouModal() {
   document.getElementById('thankyouOverlay').style.display = 'none';
 }
 
-// الإرسال والتحقق
+// إرسال البيانات وحفظها في Firebase
 document.getElementById('feedbackForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const voteVal = document.getElementById('selectedVoteInput').value;
   
   if (!voteVal) {
-    alert("يرجى تحديد موقفك من التصويت أولاً من الخيارات أعلاه (موافق / موافق مع تعديلات / غير موافق).");
+    alert("يرجى تحديد موقفك من التصويت أولاً من الخيارات أعلاه.");
     return;
   }
 
@@ -598,6 +614,11 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
 
   if (!nameVal || !phoneVal) {
     alert("لضمان المصداقية، يلزم إدخال كلاً من الاسم الكامل ورقم الجوال لتأكيد التصويت.");
+    return;
+  }
+
+  if (voteVal === 'موافق مع تعديلات' && !notesVal) {
+    alert("لطفاً اكتب مقترحك أو الملاحظات المطلوبة في صندوق النص.");
     return;
   }
 
@@ -615,6 +636,7 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
     document.getElementById('feedbackForm').reset();
     document.querySelectorAll('.vote-option').forEach(e => e.classList.remove('selected'));
     document.getElementById('selectedVoteInput').value = '';
+    document.getElementById('formCard').style.display = 'none';
     submitBtn.disabled = false;
     submitBtn.innerText = "إرسال وتوثيق التصويت الحقيقي";
   }).catch(err => {
@@ -625,7 +647,7 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
   });
 });
 
-// تحديث الإحصائيات
+// تحديث النتائج والملاحظات حياً ومباشرة
 db.ref('votes').on('value', snapshot => {
   const data = snapshot.val();
   let countAgree = 0, countMod = 0, countDisagree = 0, total = 0, totalNotes = 0;

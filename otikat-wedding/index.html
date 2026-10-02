@@ -86,13 +86,12 @@ a { text-decoration: none; color: inherit; }
   border-bottom: 2px solid var(--line);
 }
 .nav {
-  min-height: 85px; display: flex; flex-direction: column;
+  min-height: 75px; display: flex; flex-direction: column;
   align-items: center; justify-content: center; padding: 10px 0;
   text-align: center;
 }
 .brand { display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 800; color: var(--brown); font-size: 20px; }
 .brand img { width: 55px; height: 55px; object-fit: contain; border-radius: 50%; }
-.developer-tag { font-size: 13px; font-weight: 700; color: var(--gold); margin-top: 2px; }
 
 /* فواصل الكتل المزخرفة */
 .block-divider {
@@ -251,7 +250,6 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
       <img src="logo.png" alt="شعار المبادرة" onerror="this.style.display='none'">
       <span>مبادرة مقترح للزواج الجماعي لشباب العتيكات</span>
     </a>
-    <div class="developer-tag">تصميم وبرمجة: أبو فيصل حفظه الله</div>
   </div>
 </header>
 
@@ -471,7 +469,7 @@ footer { padding: 25px 0; background: var(--brown); color: #fff; text-align: cen
 <section id="results">
   <div class="container">
     <div class="countdown-section">
-      <div style="font-weight: 800; font-size: 17px; margin-bottom: 8px;">⏱️ المتبقي على إغلاق التصويت والاعتماد النهائي</div>
+      <div style="font-weight: 800; font-size: 17px; margin-bottom: 8px;">⏱ المتبقي على إغلاق التصويت والاعتماد النهائي</div>
       <div class="timer-grid">
         <div class="timer-box"><span class="timer-num" id="days">00</span>يوم</div>
         <div class="timer-box"><span class="timer-num" id="hours">00</span>ساعة</div>
@@ -595,7 +593,7 @@ function closeThankYouModal() {
   document.getElementById('thankyouOverlay').style.display = 'none';
 }
 
-// إرسال البيانات وحفظها في Firebase
+// إرسال البيانات وحفظها في Firebase بدون تكرار (باستخدام رقم الجوال كمفتاح فريد)
 document.getElementById('feedbackForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const voteVal = document.getElementById('selectedVoteInput').value;
@@ -622,10 +620,14 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
     return;
   }
 
+  // تنظيف رقم الجوال لاستخدامه كمفتاح أساسي (Key) لمنع التكرار
+  const cleanPhone = phoneVal.replace(/[^0-9]/g, '');
+
   submitBtn.disabled = true;
   submitBtn.innerText = "جاري توثيق وإرسال التصويت...";
 
-  db.ref('votes').push({
+  // الحفظ برقم الجوال المُنظّف لمنع تكرار الشخص نفسه وتحديث صوته السابق إن أعاد التصويت
+  db.ref('votes/' + cleanPhone).set({
     name: nameVal,
     phone: phoneVal,
     vote: voteVal,

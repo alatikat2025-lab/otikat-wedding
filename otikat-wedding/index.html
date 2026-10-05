@@ -700,6 +700,23 @@ setInterval(() => {
   }
 }, 1000);
 </script>
+  <!-- عداد الزوار المعلن بمنتصف أسفل الصفحة (متناسق مع الهوية) -->
+<footer style="width: 100%; padding: 20px 0; margin-top: 40px; background-color: #fdfbf7; border-top: 1px solid rgba(230, 204, 178, 0.6); display: flex; justify-content: center; align-items: center;">
+  <div style="background-color: #f5ebe0; border: 1px solid #ddb892; border-radius: 16px; padding: 10px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;">
+    <span style="font-size: 16px;">👁️</span>
+    <span style="color: #7f5539; font-size: 14px; font-weight: 500;">عدد زوار المنصة:</span>
+    <span id="visitorCount" style="background-color: #ede0d4; color: #7f5539; font-weight: bold; font-size: 15px; padding: 2px 12px; border-radius: 10px; border: 1px solid rgba(176, 137, 104, 0.3); font-family: monospace;">1,250</span>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    let count = localStorage.getItem('atikat_visitors') || 1250;
+    count = parseInt(count) + 1;
+    localStorage.setItem('atikat_visitors', count);
+    document.getElementById('visitorCount').innerText = Number(count).toLocaleString('ar-SA');
+  })();
+</script>
 
 </body>
 </html>
